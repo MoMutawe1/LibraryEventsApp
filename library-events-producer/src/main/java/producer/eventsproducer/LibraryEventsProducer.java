@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 
 @Component
 @Slf4j
-// this is going to act as a producer to basically produce a messages into the Kafka topic.
+// this going to act as a producer to basically produce a messages into the Kafka topic.
 public class LibraryEventsProducer {
 
     private final KafkaTemplate<Integer, String> kafkaTemplate;
