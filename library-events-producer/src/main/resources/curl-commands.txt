@@ -7,23 +7,26 @@ curl -i \
 -X POST http://localhost:8080/v1/libraryevent
 
 ---------------------
-PUT WITH ID - 1:
+PUT WITH ID - 1 - test success scenario:
 
 curl -i \
--d '{"libraryEventId":1,"libraryEventType": "NEW","book":{"bookId":456,"bookName":"Kafka Using Spring Boot 2.X","bookAuthor":"Sawsaw"}}' \
+-d '{"libraryEventId":1,"libraryEventType": "UPDATE","book":{"bookId":456,"bookName":"Kafka Using Spring Boot 2.X","bookAuthor":"Sawsaw"}}' \
 -H "Content-Type: application/json" \
 -X PUT http://localhost:8080/v1/libraryevent
 
 
 
-PUT WITH ID - 2:
+PUT WITH ID - 2 - test failure scenarios:
 
 curl -i \
 -d '{"libraryEventId":2,"libraryEventType": "NEW","book":{"bookId":456,"bookName":"Kafka Using Spring Boot 2.X","bookAuthor":"Sawsaw"}}' \
 -H "Content-Type: application/json" \
 -X PUT http://localhost:8080/v1/libraryevent
 
-
+curl -i \
+-d '{"libraryEventId":null,"libraryEventType": "NEW","book":{"bookId":456,"bookName":"Kafka Using Spring Boot 2.X","bookAuthor":"Sawsaw"}}' \
+-H "Content-Type: application/json" \
+-X PUT http://localhost:8080/v1/libraryevent
 
 ---------------------
 PUT WITH ID - 123:

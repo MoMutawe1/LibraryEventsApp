@@ -7,8 +7,28 @@ spring:
     activate:
       on-profile: local
   kafka:
-    topic:  library-events
+    topic:  "library-events"
     producer:
       bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all    # The number of acknowledgments the producer requires the leader to have received before considering a request complete.
+        retries: 10  # Default Value: 2147483647, Setting a value greater than zero will cause the client to resend any record whose send fails with a potentially transient error.
+    admin:
+      properties:
+        bootstrap.servers: localhost:9092,localhost:9093,localhost:9094
+
+# acks=0 If set to zero then the producer will not wait for any acknowledgment from the server at all.
+# acks=1 This will mean the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers.
+# acks=all This means the leader will wait for the full set of in-sync replicas to acknowledge the record. This is equivalent to the (acks=-1) setting.
+---
+spring:
+  config:
+    activate:
+      on-profile: nonprod
+  kafka:
+    producer:
+      bootstrap-servers: nonprod:9092,nonprod:9093,nonprod:9094
       key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

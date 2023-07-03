@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import producer.dto.LibraryEvent;
+import producer.dto.LibraryEventType;
 import producer.eventsproducer.LibraryEventsProducer;
 
 import java.util.concurrent.ExecutionException;
@@ -42,5 +44,34 @@ public class LibraryEventsController {
         log.info("After Sending LibraryEvent");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
+    }
+
+    @PutMapping("/v1/libraryevent")
+    public ResponseEntity<?> updateLibraryEvent(@RequestBody @Valid LibraryEvent libraryEvent) throws JsonProcessingException {
+
+        // check if the id is not equal to null & the request type is UPDATE.
+        ResponseEntity<String> BAD_REQUEST = validateLibraryEvent(libraryEvent);
+        if (BAD_REQUEST != null) return BAD_REQUEST;
+
+        libraryEventsProducer.sendLibraryEvent(libraryEvent);
+        log.info("after produce call");
+        return ResponseEntity.status(HttpStatus.OK).body(libraryEvent);
+    }
+
+    // do the updateLibraryEvent validation in a separate method, for a cleaner impl.
+    private static ResponseEntity<String> validateLibraryEvent(LibraryEvent libraryEvent) {
+
+        // LibraryEventId should not be null for PUT request.
+        if (libraryEvent.LibraryEventId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please pass the LibraryEventId");
+        }
+
+        // LibraryEventType should be UPDATE for PUT request.
+        if (!LibraryEventType.UPDATE.equals(libraryEvent.libraryEventType()))  {
+            log.info("Inside the if block");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only UPDATE event type is supported");
+        }
+
+        return null;
     }
 }
