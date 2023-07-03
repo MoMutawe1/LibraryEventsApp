@@ -65,12 +65,12 @@ class LibraryEventsControllerUnitTest {
     }
 
     @Test
-    void postEventFailure() throws Exception {  // use .bookRecordWithInvalidValues() then .is4xxClientError() is expected
+    void postEventFailure_4xx() throws Exception {  // use .bookRecordWithInvalidValues() then .is4xxClientError() is expected
 
         // given
         // here the json represent our request body.
         var json = objectMapper.writeValueAsString(TestUtil.bookRecordWithInvalidValues());
-
+        var expectedErrorMessage = "book.bookId - must not be null, book.bookName - must not be blank";
 
         // when
         // this is not going to load any Kafka components, you won't find any logs related to kafka in the console, because we are just testing the web layer (controller) and mock all other layers.
@@ -80,6 +80,7 @@ class LibraryEventsControllerUnitTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/libraryevent")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                        .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                        .andExpect(MockMvcResultMatchers.content().string(expectedErrorMessage));
     }
 }
