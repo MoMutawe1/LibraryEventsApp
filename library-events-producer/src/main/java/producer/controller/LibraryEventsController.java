@@ -1,6 +1,7 @@
 package producer.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class LibraryEventsController {
     public LibraryEventsProducer libraryEventsProducer;
 
     @PostMapping("/v1/libraryevent")
-    public ResponseEntity<LibraryEvent> postEvent(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
+    public ResponseEntity<LibraryEvent> postEvent(@RequestBody @Valid LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
         log.info("LibraryEvent: {} ", libraryEvent);
 
         // So when we receive the request body it's going to be forwarded to the sendLibraryEvent.

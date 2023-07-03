@@ -1,4 +1,4 @@
-package intg.producer;
+package intg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.Consumer;

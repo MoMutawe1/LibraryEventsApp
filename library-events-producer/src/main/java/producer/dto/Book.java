@@ -1,4 +1,7 @@
 package producer.dto;
 
-public record Book(Integer BookId, String bookName, String bookAuthor) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record Book(@NotNull Integer BookId, @NotBlank String bookName, @NotBlank String bookAuthor) {
 }
