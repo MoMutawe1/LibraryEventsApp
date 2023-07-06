@@ -1,6 +1,6 @@
 spring:
-  #The "config.activate.on-profile" property is not mandatory.
-  #  config:
+  #The "consumer.config.activate.on-profile" property is not mandatory.
+  #  consumer.config:
   #    activate:
   #      on-profile: prod
   kafka:

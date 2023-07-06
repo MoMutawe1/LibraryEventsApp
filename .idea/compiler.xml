@@ -8,11 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="library-events-producer" />
+        <module name="Library-events-consumer" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Library-events-consumer" options="-parameters" />
       <module name="library-events-producer" options="-parameters" />
     </option>
   </component>
